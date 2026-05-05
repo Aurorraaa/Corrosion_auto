@@ -109,6 +109,7 @@ def main():
     def init():
         im.set_data(model.grid)
         line.set_data([], [])
+        ax1.set_title("Клеточный автомат коррозии")
         return im, line
 
     def update(frame):
@@ -119,7 +120,9 @@ def main():
         y = model.damage_history
         line.set_data(x, y)
 
-        ax1.set_title(f"Клеточный автомат коррозии — шаг {frame}")
+        ax1.set_title(f"Клеточный автомат коррозии — шаг {frame + 1}")
+        if frame == frames - 1:
+            anim.event_source.stop()
         return im, line
 
     anim = FuncAnimation(
@@ -128,11 +131,11 @@ def main():
         init_func=init,
         frames=frames,
         interval=50,
-        blit=True
+        blit=False,
+        repeat=False
     )
 
     plt.tight_layout()
-    anim.save("corrosion.gif", writer="pillow", fps=20)
     plt.show()
 
 if __name__ == "__main__":
